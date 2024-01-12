@@ -8,11 +8,12 @@ def create_directories(class_name, base_name, num_directories):
         print(f"Created directory: {os.path.join(class_name, dir_name)}")
 
 
-def add_common_folder(folder_name):
-    for class_dir in os.listdir("."):
-        if os.path.isdir(class_dir):
-            os.makedirs(os.path.join(class_dir, folder_name))
-            print(f"Added folder {folder_name} to {class_dir}")
+def add_common_folder(parent_dir, common_folder_name):
+    for class_dir in os.listdir(parent_dir):
+        full_path = os.path.join(parent_dir, class_dir)
+        if os.path.isdir(full_path):
+            os.makedirs(os.path.join(full_path, common_folder_name), exist_ok=True)
+            print(f"Added folder {common_folder_name} to {class_dir}")
 
 
 def main():
@@ -29,7 +30,9 @@ def main():
     ).split()
 
     for class_name in class_names:
-        print(f"Creating directories for class: {class_name}")
+        class_dir = os.path.join(parent_dir, class_name)
+        os.makedirs(class_dir, exist_ok=True)
+        print(f"Created directory: {class_dir}")
 
         base_name = input(f"Enter the base name for {class_name} directories: ")
 
@@ -38,24 +41,19 @@ def main():
                 f"Enter the number of directories to create for {class_name} (or leave empty to skip): "
             )
             if not num_directories_str:
-                num_directories = 0
                 break
             try:
                 num_directories = int(num_directories_str)
+                create_directories(class_dir, base_name, num_directories)
                 break
             except ValueError:
                 print("Invalid input. Please enter a valid number or leave it empty.")
 
-        if num_directories > 0:
-            create_directories(
-                os.path.join(parent_dir, class_name), base_name, num_directories
-            )
-    add_folder_response = input(
-        "Do you want to add a common folder to all classes? (yes/no): "
+    common_folder_name = input(
+        "Enter a common folder name to add to all class directories: "
     )
-    if add_folder_response.lower() == "yes":
-        common_folder_name = input("Enter the name of the common folder to add: ")
-        add_common_folder(common_folder_name)
+    if common_folder_name:
+        add_common_folder(parent_dir, common_folder_name)
 
     print("All directories created successfully.")
 
