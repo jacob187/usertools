@@ -20,9 +20,9 @@ def generate_password(
 def get_yes_no_input(prompt: str) -> bool:
     while True:
         response = input(prompt).strip().upper()
-        if response == "Y":
+        if response == "Y" or response == "y" or response == "":
             return True
-        elif response == "N":
+        elif response == "N" or response == "n":
             return False
         else:
             print("Invalid input. Please enter 'Y' for yes or 'N' for no.")
@@ -30,8 +30,8 @@ def get_yes_no_input(prompt: str) -> bool:
 
 try:
     length = input("Password length: ")
-    include_punctuation = get_yes_no_input("Include punctuation characters? (Y/N): ")
-    include_digits = get_yes_no_input("Include digits? (Y/N): ")
+    include_punctuation = get_yes_no_input("Include punctuation characters? (y/N): ")
+    include_digits = get_yes_no_input("Include digits? (y/N): ")
 
     password = generate_password(length, include_punctuation, include_digits)
     print(password)
