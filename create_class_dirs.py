@@ -3,7 +3,7 @@ import os, argparse
 
 def create_directories(class_name, base_name, num_directories):
     for i in range(1, num_directories + 1):
-        dir_name = f"{base_name}{i}"
+        dir_name = f"{base_name}{str(i).zfill(2)}"
         os.makedirs(os.path.join(class_name, dir_name))
         print(f"Created directory: {os.path.join(class_name, dir_name)}")
 
